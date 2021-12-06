@@ -1,0 +1,628 @@
+// Typography mixins
+
+@mixin pointer-events($value) {
+    -ms-pointer-events: $value;
+    pointer-events: $value;
+}
+
+@mixin emphasis() {
+    font-style: italic;
+}
+
+@mixin ellipsis() {
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+@mixin icon-font($family) {
+    font-family: $family!important;
+    text-transform: none!important;
+    font-weight: normal!important;
+    font-variant: normal!important;
+    -webkit-font-smoothing: antialiased!important;
+    -moz-osx-font-smoothing: grayscale!important;
+    speak: none!important;
+}
+
+@mixin text-align($value,$responsiveValue: null,$breakpoint: null) {
+    text-align: $value;
+
+    @media only screen and (max-width : $breakpoint) {
+        text-align: $responsiveValue;
+    }
+}
+
+@mixin select($value: none) {
+    -webkit-touch-callout: none;
+    -webkit-user-select: $value;
+    -moz-user-select: $value;
+    -ms-user-select: $value;
+    user-select: $value;
+
+    input,textarea,[contenteditable] {
+        -webkit-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
+        cursor: text;
+    }
+}
+
+@mixin columns($count: null,$width: null,$gap: null,$ruleStyle: null,$ruleWidth: null,$ruleColor: null) {
+    -webkit-column-count: $count;
+    -moz-column-count: $count;
+    column-count: $count;
+    -webkit-column-gap: $gap;
+    -moz-column-gap: $gap;
+    column-gap: $gap;
+    -webkit-column-width: $width;
+    -moz-column-width: $width;
+    column-width: $width;
+}
+
+// Magic element styles
+
+@mixin inline-wrapper() {
+    text-align: justify;
+    -ms-text-justify: distribute-all-lines;
+    text-justify: distribute-all-lines;
+    font-size: 0;
+
+    &:after {
+        display: inline-block;
+        width: 100%;
+        content: "";
+        font-size: 0;
+        line-height: 0;
+    }
+}
+
+@mixin inline-element($width,$valign,$fontsize,$responsiveWidth: null,$breakpoint: null) {
+    @if length($fontsize) == 0 {
+        $fontsize: $initialtext;
+    }
+
+    display: inline-block;
+    width: $width;
+    vertical-align: $valign;
+    font-size: $fontsize;
+
+    @if ($responsiveWidth) and ($breakpoint) {
+        @media only screen and (max-width : $breakpoint) {
+            width: $responsiveWidth;
+        }
+    }
+}
+
+// Aesthetics
+
+@mixin background-size($value) {
+    -webkit-background-size: $value;
+	-moz-background-size: $value;
+	-o-background-size: $value;
+	background-size: $value;
+}
+
+@mixin object-fit($value) {
+    -webkit-object-fit: $value;
+    -moz-object-fit: $value;
+    -o-background-size: $value;
+    object-fit: $value;
+}
+
+@mixin object-position($value) {
+    -o-object-position: $value;
+    object-position: $value;
+}
+
+@mixin filter($content) {
+    -webkit-filter: $content;
+    -moz-filter: $content;
+    -o-filter: $content;
+    -ms-filter: $content;
+    filter: $content;
+}
+
+@mixin backdrop-filter($content) {
+    -webkit-backdrop-filter: $content;
+    -moz-backdrop-filter: $content;
+    -o-backdrop-filter: $content;
+    -ms-backdrop-filter: $content;
+    backdrop-filter: $content;
+}
+
+@mixin linear-gradient($direction: to bottom, $gradients...) {
+	background-color: nth($gradients,1);
+	background-image: linear-gradient($direction, $gradients);
+}
+
+@mixin radial-gradient($direction: ellipse at center, $gradients...) {
+	background-color: nth($gradients,1);
+	background-image: radial-gradient($direction, $gradients);
+}
+
+@function gradientshadow($color,$length,$direction) {
+    $val: 0px 0px $color;
+
+    @if ($direction == 'nw') {
+        @for $i from 1 to $length {
+            $val: #{$val}, -#{$i}px -#{$i}px #{lighten($color,$i)};
+        }
+    }
+
+    @if ($direction == 'n') {
+        @for $i from 1 to $length {
+            $val: #{$val}, 0 -#{$i}px #{lighten($color,$i)};
+        }
+    }
+
+    @if ($direction == 'ne') {
+        @for $i from 1 to $length {
+            $val: #{$val}, #{$i}px -#{$i}px #{lighten($color,$i)};
+        }
+    }
+
+    @if ($direction == 'e') {
+        @for $i from 1 to $length {
+            $val: #{$val}, #{$i}px 0 #{lighten($color,$i)};
+        }
+    }
+
+    @if ($direction == 'se') {
+        @for $i from 1 to $length {
+            $val: #{$val}, #{$i}px #{$i}px #{lighten($color,$i)};
+        }
+    }
+
+    @if ($direction == 's') {
+        @for $i from 1 to $length {
+            $val: #{$val}, 0 #{$i}px #{lighten($color,$i)};
+        }
+    }
+
+    @if ($direction == 'sw') {
+        @for $i from 1 to $length {
+            $val: #{$val}, -#{$i}px #{$i}px #{lighten($color,$i)};
+        }
+    }
+
+    @if ($direction == 'w') {
+        @for $i from 1 to $length {
+            $val: #{$val}, -#{$i}px 0 #{lighten($color,$i)};
+        }
+    }
+
+    @return $val;
+}
+
+@function longshadow($color,$length,$direction) {
+    $val: 0px 0px $color;
+
+    @if ($direction == 'nw') {
+        @for $i from 1 through $length {
+            $val: #{$val}, -#{$i}px -#{$i}px #{$color};
+        }
+    }
+
+    @if ($direction == 'n') {
+        @for $i from 1 through $length {
+            $val: #{$val}, 0 -#{$i}px #{$color};
+        }
+    }
+
+    @if ($direction == 'ne') {
+        @for $i from 1 through $length {
+            $val: #{$val}, #{$i}px -#{$i}px #{$color};
+        }
+    }
+
+    @if ($direction == 'e') {
+        @for $i from 1 through $length {
+            $val: #{$val}, #{$i}px 0 #{$color};
+        }
+    }
+
+    @if ($direction == 'se') {
+        @for $i from 1 through $length {
+            $val: #{$val}, #{$i}px #{$i}px #{$color};
+        }
+    }
+
+    @if ($direction == 's') {
+        @for $i from 1 through $length {
+            $val: #{$val}, 0 #{$i}px #{$color};
+        }
+    }
+
+    @if ($direction == 'sw') {
+        @for $i from 1 through $length {
+            $val: #{$val}, -#{$i}px #{$i}px #{$color};
+        }
+    }
+
+    @if ($direction == 'w') {
+        @for $i from 1 through $length {
+            $val: #{$val}, -#{$i}px 0 #{$color};
+        }
+    }
+
+    @return $val;
+}
+
+@mixin placeholders($color,$weight: null) {
+    &::-webkit-input-placeholder {
+        color: $color;
+        font-weight: $weight;
+    }
+
+    &:-moz-placeholder {
+        color: $color;
+        font-weight: $weight;
+    }
+
+    &::-moz-placeholder {
+        color: $color;
+        font-weight: $weight;
+    }
+
+    &:-ms-input-placeholder {
+        color: $color;
+        font-weight: $weight;
+    }
+}
+
+@mixin scrollbar($size, $primary, $secondary: #ffffff, $radius: 0,$selector: body) {
+    #{$selector} {
+        @media only screen and (-webkit--max-device-pixel-ratio: 1), screen and (max-resolution: 96dpi), screen and (min-width: 1280px) {
+            &::-webkit-scrollbar,*::-webkit-scrollbar {
+                width:  $size;
+                height: $size;
+            }
+     
+            &::-webkit-scrollbar-thumb,*::-webkit-scrollbar-thumb {
+                background: $primary;
+                border-radius: $radius;
+            }
+     
+            &::-webkit-scrollbar-track,*::-webkit-scrollbar-track {
+                background: $secondary;
+            }
+
+            scrollbar-base-color: $primary;
+            scrollbar-track-color: $secondary;
+        }
+    }
+    
+}
+
+// Transformation mixins
+
+@mixin animation($name, $iterations, $timing, $duration, $delay: 0, $direction: normal, $fill-mode: forwards) {
+    -moz-animation-name: $name;
+    -ms-animation-name: $name;
+    -o-animation-name: $name;
+    -webkit-animation-name: $name;
+    animation-name: $name;
+    -moz-animation-iteration-count: $iterations;
+    -ms-animation-iteration-count: $iterations;
+    -o-animation-iteration-count: $iterations;
+    -webkit-animation-iteration-count: $iterations;
+    animation-iteration-count: $iterations;
+    -moz-animation-timing-function: $timing;
+    -ms-animation-timing-function: $timing;
+    -o-animation-timing-function: $timing;
+    -webkit-animation-timing-function: $timing;
+    animation-timing-function: $timing;
+    -moz-animation-duration: $duration;
+    -ms-animation-duration: $duration;
+    -o-animation-duration: $duration;
+    -webkit-animation-duration: $duration;
+    animation-duration: $duration;
+    -moz-animation-direction: $direction;
+    -ms-animation-direction: $direction;
+    -o-animation-direction: $direction;
+    -webkit-animation-direction: $direction;
+    animation-direction: $direction;
+    -moz-animation-delay: $delay;
+    -ms-animation-delay: $delay;
+    -o-animation-delay: $delay;
+    -webkit-animation-delay: $delay;
+    animation-delay: $delay;
+    -moz-animation-fill-mode: $fill-mode;
+    -ms-animation-fill-mode: $fill-mode;
+    -o-animation-fill-mode: $fill-mode;
+    -webkit-animation-fill-mode: $fill-mode;
+    animation-fill-mode: $fill-mode;
+}
+
+@mixin perspective($value) {
+    -moz-perspective: $value;
+    -ms-perspective: $value;
+    -webkit-perspective: $value;
+    perspective: $value;
+}
+
+@mixin backface($visibility) {
+    -moz-backface-visibility: $visibility;
+    -webkit-backface-visibility: $visibility;
+    backface-visibility: $visibility;
+}
+
+@mixin transform-style($value) { 
+    -ms-transform-style: $value;
+    -moz-transform-style: $value;   
+    -webkit-transform-style: $value;
+    transform-style: $value;
+}
+
+@mixin transform($content) {
+    -moz-transform: $content;
+    -ms-transform: $content;
+    -o-transform: $content;
+    -webkit-transform: $content;
+    transform: $content;
+}
+
+@mixin transform-origin($content) {
+    -moz-transform-origin: $content;
+    -ms-transform-origin: $content;
+    -o-transform-origin: $content;
+    -webkit-transform-origin: $content;
+    transform-origin: $content;
+}
+
+@mixin transition($property: all,$duration: 1s,$easing: linear,$delay: null) {
+    -moz-transition: $property $duration $easing $delay;
+    -o-transition: $property $duration $easing $delay;
+    -webkit-transition: $property $duration $easing $delay;
+    transition: $property $duration $easing $delay;
+}
+
+@mixin multi-transition($transitions...) {
+    -moz-transition: $transitions;
+    -o-transition: $transitions;
+    -webkit-transition: $transitions;
+    transition: $transitions;    
+}
+
+@mixin keyframes($animationName) {
+    @-webkit-keyframes #{$animationName} {
+        @content;
+    }
+    @-moz-keyframes #{$animationName} {
+        @content;
+    }
+    @-o-keyframes #{$animationName} {
+        @content;
+    }
+    @keyframes #{$animationName} {
+        @content;
+    }
+}
+
+// Structuring mixins
+
+@mixin cover($top,$right,$bottom,$left) {
+    top: $top;
+    left: $left;
+    right: $right;
+    bottom: $bottom;
+}
+
+@mixin hcenter($position) {
+    @if length($position) == 0 {
+        $position: relative;
+    }
+
+    position: $position;
+    left: 50%;
+    @include transform(translate3d(-50%,0,0));
+}
+
+@mixin vcenter($position) {
+
+    @if length($position) == 0 {
+        $position: relative;
+    }
+
+    position: $position;
+    top: 50%;
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+@mixin allcenter($position) {
+    @if length($position) == 0 {
+        $position: relative;
+    }
+
+    position: $position;
+    top: 50%;
+    left: 50%;
+    -moz-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}
+
+@mixin width($width,$responsiveWidth: null,$breakpoint: null) {
+    width: $width;
+
+    @media only screen and (max-width : $breakpoint) {
+        width: $responsiveWidth;
+    }
+}
+
+@mixin flexdisplay($display: flex) {
+
+    @if $display == flex {
+		display: -webkit-box;
+	    display: -webkit-flex;
+	    display: -moz-flex;
+	    display: -ms-flexbox;
+	    display: flex;
+	} @else {
+	    display: -webkit-inline-box;
+	    display: -webkit-inline-flex;
+	    display: -moz-inline-flex;
+	    display: -ms-inline-flexbox;
+	    display: inline-flex;
+    }
+	
+}
+
+@mixin flex-direction($value: row) {
+	@if $value == row-reverse {
+		-webkit-box-direction: reverse;
+		-webkit-box-orient: horizontal;
+	} @else if $value == column {
+		-webkit-box-direction: normal;
+		-webkit-box-orient: vertical;
+	} @else if $value == column-reverse {
+		-webkit-box-direction: reverse;
+		-webkit-box-orient: vertical;
+	} @else {
+		-webkit-box-direction: normal;
+		-webkit-box-orient: horizontal;
+	}
+	-webkit-flex-direction: $value;
+	-moz-flex-direction: $value;
+	-ms-flex-direction: $value;
+	flex-direction: $value;
+}
+
+@mixin flex-wrap($value: nowrap) {
+	-webkit-flex-wrap: $value;
+	-moz-flex-wrap: $value;
+	@if $value == nowrap {
+		-ms-flex-wrap: none;
+	} @else { 
+		-ms-flex-wrap: $value; 
+	}
+	flex-wrap: $value;
+}
+
+@mixin flex-flow($values: (row nowrap)) {
+	-webkit-flex-flow: $values;
+	-moz-flex-flow: $values;
+	-ms-flex-flow: $values;
+	flex-flow: $values;
+}
+
+@mixin order($int: 0) {
+	-webkit-box-ordinal-group: $int + 1;
+	-webkit-order: $int;
+	-moz-order: $int;
+	-ms-flex-order: $int;
+	order: $int;
+}
+
+@mixin flex-grow($int: 0) {
+	-webkit-box-flex: $int;
+	-webkit-flex-grow: $int;
+	-moz-flex-grow: $int;
+	-ms-flex-positive: $int;
+	flex-grow: $int;
+}
+
+@mixin flex-shrink($int: 1) {
+	-webkit-flex-shrink: $int;
+	-moz-flex-shrink: $int;
+	-ms-flex-negative: $int;
+	flex-shrink: $int;
+}
+
+@mixin flex-basis($value: auto) {
+	-webkit-flex-basis: $value;
+	-moz-flex-basis: $value;
+	-ms-flex-preferred-size: $value;
+	flex-basis: $value;
+}
+
+@mixin flex($fg: 1, $fs: null, $fb: null) {
+
+	$fg-boxflex: $fg;
+
+	@if type-of($fg) == 'list' {
+		$fg-boxflex: nth($fg, 1);
+	}
+
+	-webkit-box-flex: $fg-boxflex;
+	-webkit-flex: $fg $fs $fb;
+	-moz-box-flex: $fg-boxflex;
+	-moz-flex: $fg $fs $fb;
+	-ms-flex: $fg $fs $fb;
+	flex: $fg $fs $fb;
+}
+
+@mixin justify-content($value: flex-start) {
+	@if $value == flex-start {
+		-webkit-box-pack: start;
+		-ms-flex-pack: start;
+	} @else if $value == flex-end {
+		-webkit-box-pack: end;
+		-ms-flex-pack: end;
+	} @else if $value == space-between {
+		-webkit-box-pack: justify;
+		-ms-flex-pack: justify;
+	} @else if $value == space-around {
+		-ms-flex-pack: distribute;		
+	} @else {
+		-webkit-box-pack: $value;
+		-ms-flex-pack: $value;
+	}
+	-webkit-justify-content: $value;
+	-moz-justify-content: $value;
+	justify-content: $value;
+}
+	@mixin flex-just($args...) { @include justify-content($args...); }
+
+@mixin align-items($value: stretch) {
+	@if $value == flex-start {
+		-webkit-box-align: start;
+		-ms-flex-align: start;
+	} @else if $value == flex-end {
+		-webkit-box-align: end;
+		-ms-flex-align: end;
+	} @else {
+		-webkit-box-align: $value;
+		-ms-flex-align: $value;
+	}
+	-webkit-align-items: $value;
+	-moz-align-items: $value;
+	align-items: $value;
+}
+
+@mixin align-self($value: auto) {
+	-webkit-align-self: $value;
+	-moz-align-self: $value;
+	@if $value == flex-start {
+		-ms-flex-item-align: start;
+	} @else if $value == flex-end {
+		-ms-flex-item-align: end;
+	} @else {
+		-ms-flex-item-align: $value;
+	}
+	align-self: $value;
+}
+
+@mixin align-content($value: stretch) {
+	-webkit-align-content: $value;
+	-moz-align-content: $value;
+	@if $value == flex-start {
+		-ms-flex-line-pack: start;
+	} @else if $value == flex-end {
+		-ms-flex-line-pack: end;
+	} @else {
+		-ms-flex-line-pack: $value;
+	}
+	align-content: $value;
+}

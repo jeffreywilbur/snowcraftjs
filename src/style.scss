@@ -1,0 +1,111 @@
+@import "./sass/variables";
+@import "./sass/mixins";
+@import "./sass/reset";
+
+@include keyframes(scanline) {
+    0% {
+        @include transform(translate3d(0,200000%,0));
+    }
+}
+
+@include keyframes(scanlines) {
+    0% {
+        background-position: 0 50%;
+    }
+}
+
+$primary: #1D628B;
+
+body {
+	overflow: hidden;
+	width: 100%;
+    height: 100%;
+    background-image: url(/images/back.jpg);
+    @include background-size(cover);
+    background-repeat: no-repeat;
+}
+
+#bg {
+    position: fixed;
+    @include cover(0,0,0,0);
+    z-index: -1;
+    @include linear-gradient(to bottom, $white 0%, rgba($primary,.6) 75%);
+}
+
+#logo {
+    width: 33vw;
+    display: block;
+    @include hcenter(relative);
+    margin-top: 2vw;
+}
+
+.shimFont {
+    color: transparent;
+    visibility: hidden;
+
+    &.christmas {
+        font-family: 'Mountains of Christmas';
+    }
+}
+
+#credits {
+    position: fixed;
+    bottom: 1vw;
+    right: .75vw;
+    color: $white;
+    text-align: right;
+
+    .primary {        
+        font-family: 'Berkshire Swash';
+        font-size: 1.5vw;
+    }
+
+    .secondary {
+        font-size: .75vw;
+        margin-top: .2vw;
+        font-style: italic;
+    }
+}
+
+#playField {
+    @include hcenter(relative);
+    width: 60vw;
+    height: 32vw;
+    @include backface(hidden);
+    z-index: 10;
+    margin-top: 4vw;
+    display: block;
+    background: $white;
+
+    canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+        cursor: none!important;
+    }
+
+    &:before {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        @include cover(-1vw,-1vw,-1vw,-1vw);
+        border: $smborder $white solid;
+        border-radius: $mdsize;
+        background: rgba($white,.2);
+    }
+
+    #scanlines {
+        position: absolute;
+        @include cover(0,0,0,0);
+        pointer-events: none;
+        overflow: hidden;
+    
+        .scanlines {        
+            @include linear-gradient(to bottom, transparent 50%, rgba($black,.1) 51%);
+            background-size: 100% 4px;
+            position: absolute;
+            @include cover(0,0,0,0);
+            pointer-events: none;
+        }
+    }
+}

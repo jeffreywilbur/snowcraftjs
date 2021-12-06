@@ -1,0 +1,68 @@
+// Reset our elements to a standard initial set of values
+
+main,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {
+	display: block;
+}
+
+*,.reset {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	-ms-text-justify: auto;
+	text-justify: auto;
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-size: $smtext;
+    line-height: 1;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-overflow-scrolling: touch;
+    -webkit-font-smoothing: antialiased;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+html, body {
+	-webkit-touch-callout: none;
+	height: 100%;
+}
+
+body {
+	font-weight: $standardweight;
+	font-size: 100%;
+}
+
+ul {
+	list-style: circle inside;
+}
+
+ol {
+	list-style-position: inside;
+}
+
+a img {
+	border: none;
+}
+
+input, textarea, select, .selectedOption {
+    border: none;
+    line-height: normal;
+
+    * {
+        line-height: normal;
+    }
+
+    &[disabled], &[disabled] * {
+        pointer-events: none;
+        background: $white;
+		color: darken($mdcolor, 10);
+    }
+}
+
+button {
+	border: none;
+	background: none;
+}

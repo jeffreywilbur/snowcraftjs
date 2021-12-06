@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "target": "es6",
+      "sourceMap": false,
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "noImplicitAny": true,
+      "alwaysStrict": true,
+      "strict": true,
+      "strictNullChecks": false,
+      "suppressImplicitAnyIndexErrors": true
+    }
+  }
+  
