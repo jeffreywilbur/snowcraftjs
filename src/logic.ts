@@ -359,7 +359,7 @@ let sounds: Sounds = {
     deathHit: "sounds/deathHit.mp3",
     intro: "sounds/intro.mp3",
     introAlt: "sounds/introAlt.mp3",
-    music: "sounds/music.mp3"
+    music: "sounds/musicAlt.mp3"
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -392,7 +392,7 @@ const selectDifficulty = (difficulty: number) => {
     activeGame.difficulty = difficulty;    
     activeGame.level = 1;
     activeGame.enemyHealth = difficulty === 1 ? 1 : difficulty === 2 ? 3 : 4;
-    activeGame.playerHealth = 4 - difficulty;
+    activeGame.playerHealth = 4;
     levelLoad();
 }
 
@@ -457,7 +457,7 @@ const levelLoad = () => {
         endText.iterations = 0;
 
         if (!musicPlaying) {
-            playSound(sounds.music, true, .5);
+            playSound(sounds.music, true, .4);
             musicPlaying = true;
         }
 
@@ -998,8 +998,10 @@ const removeSnowball = (b: Sprite, snowballs: Array<Sprite>) => {
     }
 }
 
-const snowballHit = (character: Sprite) => {
-    switch (character.value) {
+const snowballHit = () => {
+    const random = Math.floor((Math.random() * 4) + 1);
+
+    switch (random) {
         case 4:
             playSound(sounds.hit1);
             break;
@@ -1024,7 +1026,7 @@ const playerHit = (player: Sprite, count: number = 0) : void => {
     count++;
     
     if (count === 1) {        
-        snowballHit(player);
+        snowballHit();
 
         player.value--;
     }
@@ -1101,7 +1103,7 @@ const gameOver = () => {
 const enemyHit = (enemy: Sprite) => {
     enemy.active = false;
 
-    snowballHit(enemy);
+    snowballHit();
     
     if (enemy.value > 2) {
         enemy.value--;
